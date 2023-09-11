@@ -37,6 +37,7 @@ jobs:
           --ext .js,.vue
           --format @microsoft/eslint-formatter-sarif
           --output-file eslint-results.sarif
+        continue-on-error: true
 
       - name: Comment PR with execution number
         uses: thollander/actions-comment-pull-request@v2
