@@ -38,6 +38,7 @@ jobs:
         with:
           filePath: result.txt
           comment_tag: execution
+          mode: update
 
       - name: Run ESLint
         run: npx eslint .
