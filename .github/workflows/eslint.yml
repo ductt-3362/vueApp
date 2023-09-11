@@ -31,23 +31,19 @@ jobs:
           npm install eslint@8.10.0
           npm install @microsoft/eslint-formatter-sarif@2.1.7
 
-      - name: comment 
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '👋 Thanks for reporting!'
-            })
-
       - name: Run ESLint
         run: npx eslint .
           --config .eslintrc.js
           --ext .js,.vue
           --format @microsoft/eslint-formatter-sarif
           --output-file eslint-results.sarif
+
+      - name: Comment PR with execution number
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            _(execution **${{ github.run_id }}** / attempt **${{ github.run_attempt }}**)_
+          comment_tag: execution    
      
       - name: Upload analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v2
