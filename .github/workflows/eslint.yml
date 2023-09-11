@@ -31,6 +31,17 @@ jobs:
           npm install eslint@8.10.0
           npm install @microsoft/eslint-formatter-sarif@2.1.7
 
+      - name: comment 
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Thanks for reporting!'
+            })
+
       - name: Run ESLint
         run: npx eslint .
           --config .eslintrc.js
@@ -44,13 +55,4 @@ jobs:
           sarif_file: eslint-results.sarif
           wait-for-processing: true
 
-      - name: comment 
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '👋 Thanks for reporting!'
-            })
+     
