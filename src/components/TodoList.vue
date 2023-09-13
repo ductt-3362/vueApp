@@ -33,11 +33,31 @@ const handleSave = function (index) {
   editText.value = "";
   isEditing.value = false;
 };
+
+const handleSort = function (value) {
+  if (value === "az") {
+    todos.value = todos.value.sort();
+  }
+  if (value === "za") {
+    todos.value = todos.value.reverse();
+  }
+};
 </script>
 
 <template>
   <div class="h-screen justify-center flex items-center flex-col">
-    <span class="text-2xl">Todo List</span>
+    <div>
+      <span class="text-2xl">Todo List</span>
+      <select
+        name="sort"
+        class="ml-2"
+        @change="(e) => handleSort(e.target.value)"
+      >
+        <option value="az">A->Z</option>
+        <option selected disabled hidden>Choose</option>
+        <option value="za">Z->A</option>
+      </select>
+    </div>
     <ul class="mt-2">
       <template v-for="(todo, index) in todos" :key="index">
         <div class="flex content-center items-center mb-2">
