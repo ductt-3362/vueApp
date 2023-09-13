@@ -12,7 +12,7 @@ name: ESLint
 on:
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: ["master"]
+    branches: ["master", "feature"]
 
 jobs:
   eslint:
@@ -31,16 +31,9 @@ jobs:
           --config .eslintrc.js
           --ext .js,.vue
           --format compact > result.txt
-        continue-on-error: true
 
-      - name: Comment PR with execution number
+      - name: Comment PR
+        if: ${{ failure() }}
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: result.txt
-          comment_tag: execution
-          mode: update
-
-      - name: Run ESLint
-        run: npx eslint .
-          --config .eslintrc.js
-          --ext .js,.vue
