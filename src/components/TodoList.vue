@@ -1,10 +1,12 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 const todos = ref(["Play game", "Study", "Read book"]);
 const todo = ref("");
+const foundTodos = ref("");
 const isEditing = ref(false);
 const editingId = ref(-1);
 const editText = ref("");
+const searchText = ref("");
 const vFocus = {
   mounted: (el) => el.focus(),
 };
@@ -42,24 +44,48 @@ const handleSort = function (value) {
     todos.value = todos.value.reverse();
   }
 };
+const handleSearch = function () {
+  if (searchText.value) {
+    foundTodos.value = todos.value.filter((item) => {
+      return item.toLowerCase().includes(searchText.value);
+    });
+  }
+};
+
+const result = computed(() => {
+  if (searchText.value) {
+    return todos.value.filter((item) => {
+      return item.toLowerCase().includes(searchText.value);
+    });
+  } else return todos.value;
+});
 </script>
 
 <template>
   <div class="h-screen justify-center flex items-center flex-col">
     <div>
-      <span class="text-2xl">Todo List</span>
-      <select
-        name="sort"
-        class="ml-2"
-        @change="(e) => handleSort(e.target.value)"
-      >
-        <option value="az">A->Z</option>
-        <option selected disabled hidden>Choose</option>
-        <option value="za">Z->A</option>
-      </select>
+      <div>
+        <span class="text-2xl">Todo List</span>
+        <select
+          name="sort"
+          class="ml-2"
+          @change="(e) => handleSort(e.target.value)"
+        >
+          <option value="az">A->Z</option>
+          <option selected disabled hidden>Sort</option>
+          <option value="za">Z->A</option>
+        </select>
+      </div>
+      <input
+        type="text"
+        class="border-2"
+        placeholder="Search"
+        v-model="searchText"
+        @input="handleSearch"
+      />
     </div>
     <ul class="mt-2">
-      <template v-for="(todo, index) in todos" :key="index">
+      <template v-for="(todo, index) in result" :key="index">
         <div class="flex content-center items-center mb-2">
           <li class="flex">
             <template v-if="editingId === index && isEditing"
