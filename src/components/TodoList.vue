@@ -1,7 +1,9 @@
 <script setup>
 import { computed, ref } from "vue";
-const todos = ref(["Play game", "Study", "Read book"]);
-const todo = ref("");
+import { useCounterStore } from "../store/CountTask";
+
+const todo = ref("");\
+const todos = ref([])
 const foundTodos = ref("");
 const isEditing = ref(false);
 const editingId = ref(-1);
@@ -10,6 +12,14 @@ const searchText = ref("");
 const vFocus = {
   mounted: (el) => el.focus(),
 };
+const store = useCounterStore();
+todos.value = [...store.todos]
+computed.value = [...store.computed
+store.numbertask(computed(() => {
+  return todos.value.length
+}));
+
+store.assigntodos()
 const handleAdd = function (value) {
   if (value) {
     todos.value.push(value);
@@ -78,7 +88,7 @@ const result = computed(() => {
       </div>
       <input
         type="text"
-        class="mb-2 mt-2 block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        class="mb-2 mt-2 block w-full p-4 pl-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Search"
         v-model="searchText"
         @input="handleSearch"
