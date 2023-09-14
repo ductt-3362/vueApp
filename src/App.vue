@@ -1,7 +1,8 @@
 <script setup>
-import TodoList from "./components/TodoList.vue";
+import NavbarComp from "./components/NavbarComp.vue";
 </script>
 
 <template>
-  <TodoList></TodoList>
+  <NavbarComp></NavbarComp>
+  <router-view />
 </template>
