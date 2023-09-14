@@ -1,9 +1,7 @@
 <script setup>
 import { computed, ref } from "vue";
-import { useCounterStore } from "../store/CountTask";
 
-const todo = ref("");\
-const todos = ref([])
+const todo = ref("");
 const foundTodos = ref("");
 const isEditing = ref(false);
 const editingId = ref(-1);
@@ -12,14 +10,9 @@ const searchText = ref("");
 const vFocus = {
   mounted: (el) => el.focus(),
 };
-const store = useCounterStore();
-todos.value = [...store.todos]
-computed.value = [...store.computed
-store.numbertask(computed(() => {
-  return todos.value.length
-}));
 
-store.assigntodos()
+const todos = ref(["Play game", "Study", "Read book"]);
+
 const handleAdd = function (value) {
   if (value) {
     todos.value.push(value);
